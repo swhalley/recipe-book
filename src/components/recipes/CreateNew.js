@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import SelectableImageList, {images} from '../SelectableImageList';
 import Button from 'material-ui/Button';
 import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
 import TextField from "material-ui/TextField";
@@ -22,8 +23,9 @@ export default class CreateNew extends Component {
                     
                     <DialogContent>
                         <TextField required fullWidth label="Title" inputProps={{maxLength: 50}} />
-                        <TextField required fullWidth multiline label="Short Summary" inputProps={{maxLength: 255}}/>
-                        <TextField required fullWidth multiline label="Method" />
+                        <TextField required fullWidth multiline label="Short Summary" rowsMax="5" inputProps={{maxLength: 255}}/>
+                        <TextField required fullWidth multiline label="Method" rowsMax="10" />
+                        <SelectableImageList images={images} />
                     </DialogContent>
                     
                     <DialogActions>
