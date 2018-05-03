@@ -3,8 +3,15 @@ import { GridList, GridListTile, GridListTileBar} from "material-ui";
 import IconButton from 'material-ui/IconButton';
 import CheckBoxOutlineBlank from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBox from '@material-ui/icons/CheckBox';
+import { withStyles } from 'material-ui';
 
-export default class SelectableImageList extends Component {
+let styles = {
+    checkboxes : {
+        color: 'rgba(255, 255, 255, 1.0)'
+    }
+}
+
+class SelectableImageList extends Component {
     constructor( props ){
         super(props);
 
@@ -20,25 +27,34 @@ export default class SelectableImageList extends Component {
         currentImages[index].isChecked = true;
 
         this.setState( { images: currentImages} );
+        this.props.onChange( image );
     }
 
     render(){
-
         return( 
             <GridList cellHeight={160} cols={2}>
                 { this.state.images.map( (image, index ) => (
                     <GridListTile key={image.img}>
                         <img src={image.img} alt={image.name} />
                         <GridListTileBar title={image.name}
-                            actionIcon={
-                                <IconButton onClick={ () => this.selectImage( image, index )} >
-                                    { image.isChecked ? <CheckBox color="secondary" /> : <CheckBoxOutlineBlank color="secondary" /> }
-                                </IconButton>
-                            } />
+                            actionIcon={ this.renderIcon( image, index )} />
                         </GridListTile> 
                 ))
                 }
             </GridList>
         )
      }
+
+     renderIcon( image, index ){
+        let {classes} = this.props;
+        image.isChecked = (this.props.selectedImage && this.props.selectedImage === image.img)
+
+         return (
+            <IconButton className={classes.checkboxes} onClick={ () => this.selectImage( image, index )} >
+                { image.isChecked ? <CheckBox /> : <CheckBoxOutlineBlank /> }
+            </IconButton>
+         )
+     }
 }
+
+export default withStyles(styles)(SelectableImageList);
