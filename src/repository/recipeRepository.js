@@ -10,6 +10,18 @@ export default {
             createdDate :  moment().tz('America/New_York').format(),
             createdBy: firebase.auth().currentUser ? firebase.auth().currentUser.uid : "Testing" 
         });
+    },
+
+    read( callback ){
+        var database = firebase.database().ref( 'recipe/' );
+        database.on( 'value', (snapshot) => {
+            let values = snapshot.val();
+            let result = Object.keys( values ).map( ( key ) => {
+                return {...values[key], "id": key};
+            } );
+
+            callback( result );
+        });
     }
 }
 
