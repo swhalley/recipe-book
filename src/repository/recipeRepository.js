@@ -1,9 +1,8 @@
 
 
 export default {
-    create( {title, summary, method}, {img} ){
-        debugger;
-        console.log( title, summary, method, img )
+    create( {title, summary, method, image } ){
+        console.log( title, summary, method, image )
     }
 }
 

@@ -3,6 +3,7 @@ import SelectableImageList, {images} from '../SelectableImageList';
 import Button from 'material-ui/Button';
 import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
 import TextField from "material-ui/TextField";
+import {FormHelperText} from 'material-ui/Form';
 import recipeRepository from '../../repository/recipeRepository';
 
 const initialState = {
@@ -10,32 +11,35 @@ const initialState = {
     values : {
         title: '',
         summary: '',
-        method : ''
+        method : '',
+        image : ''
     },
     errors: {
         title: '',
         summary: '',
-        method: ''
-    },
-    image: {}
+        method: '',
+        image: ''
+    }
 }
 
 
 export default class CreateNew extends Component {
     state = {...initialState }
 
-    handleInputChange = (event) => { 
+    updateValue = (key, value) => {
         let values = {...this.state.values};
-        values[event.target.name] = event.target.value;
+        values[key] = value;
 
         this.setState({ values });
     }
-    imageChanged = ( image ) => { this.setState({ image })}
+
+    handleInputChange = (event) => { this.updateValue( event.target.name, event.target.value)}
+    imageChanged = ( image ) => { this.updateValue( 'image', image.img) }
     closeCreateRecipeDialog = () => { this.setState({...initialState }) }
     openCreateRecipeDialog = () => { this.setState({open:true}) }
     createRecipe = () => {
         if( this.validate() ){
-            recipeRepository.create( this.state.values, this.state.image );
+            recipeRepository.create( this.state.values );
             this.closeCreateRecipeDialog();
         }
         
@@ -96,7 +100,8 @@ export default class CreateNew extends Component {
                             error={!!this.state.errors.method} 
                             helperText={this.state.errors.method}
                             rowsMax="10" />
-                        <SelectableImageList images={images} selectedImage={this.state.image.img} onChange={this.imageChanged} />
+                        <FormHelperText error={!!this.state.errors.image}>{this.state.errors.image}</FormHelperText>
+                        <SelectableImageList images={images} selectedImage={this.state.values.image} onChange={this.imageChanged} />
                     </DialogContent>
                     
                     <DialogActions>
