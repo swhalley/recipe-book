@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MainMenu from './components/menu/MainMenu';
 import RecipeBoard from './components/recipes/RecipeBoard';
+import RecipeProvider from './components/context/RecipeStore';
 import firebase from 'firebase';
 
 class App extends Component {
@@ -18,8 +19,10 @@ class App extends Component {
   render() {
     return (
       <div>
-        <MainMenu />
-        <RecipeBoard />
+        <RecipeProvider>
+          <MainMenu />
+          <RecipeBoard />
+        </RecipeProvider>
       </div>
     );
   }

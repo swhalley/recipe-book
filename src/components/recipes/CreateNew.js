@@ -4,7 +4,6 @@ import Button from 'material-ui/Button';
 import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
 import TextField from "material-ui/TextField";
 import {FormHelperText} from 'material-ui/Form';
-import recipeRepository from '../../repository/recipeRepository';
 
 const initialState = {
     open : false,
@@ -39,7 +38,7 @@ export default class CreateNew extends Component {
     openCreateRecipeDialog = () => { this.setState({open:true}) }
     createRecipe = () => {
         if( this.validate() ){
-            recipeRepository.create( this.state.values );
+            this.props.createRecipe( this.state.values );
             this.closeCreateRecipeDialog();
         }
         

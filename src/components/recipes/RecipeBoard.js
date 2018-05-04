@@ -1,28 +1,25 @@
 import React, {Component} from 'react';
-import recipeRepository from '../../repository/recipeRepository';
+import {RecipeConsumer} from '../context/RecipeStore';
 import RecipeCard from './RecipeCard';
 import Grid from 'material-ui/Grid';
 
 class RecipeBoard extends Component {
-    state = { recipes: []}
-
     render(){
         return (
-            <Grid container spacing={8}>
-                {this.state.recipes.map((recipe)=>
-                    <Grid item key={recipe.id}>
-                        <RecipeCard {...recipe} />
-                    </Grid>)
+            <RecipeConsumer>
+                {
+                    (context) => (
+                        <Grid container spacing={8}>
+                            {context.state.recipes.map((recipe)=>
+                                <Grid item key={recipe.id}>
+                                    <RecipeCard {...recipe} />
+                                </Grid>)
+                            }
+                        </Grid>
+                    )
                 }
-            </Grid>
+            </RecipeConsumer>
         )
-    }
-
-    componentDidMount(){
-
-        recipeRepository.read( ( recipes ) => {
-            this.setState( {recipes} );
-        });
     }
 }
 
