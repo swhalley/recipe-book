@@ -10,8 +10,8 @@ class RecipeBoard extends Component {
         return (
             <Grid container spacing={8}>
                 {this.state.recipes.map((recipe)=>
-                    <Grid item li key={recipe.id}>
-                        <RecipeCard  {...recipe} />
+                    <Grid item key={recipe.id}>
+                        <RecipeCard {...recipe} />
                     </Grid>)
                 }
             </Grid>

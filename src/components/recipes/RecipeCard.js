@@ -64,11 +64,6 @@ class RecipeCard extends React.Component {
                 R
               </Avatar>
             }
-            action={
-              <IconButton>
-                <MoreVertIcon />
-              </IconButton>
-            }
             title={this.props.title}
             subheader={this.props.createdDate}
           />

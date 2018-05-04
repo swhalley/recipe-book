@@ -17,7 +17,7 @@ class MainMenu extends Component {
         let {classes} = this.props;
 
         return (
-        <AppBar position="fixed">
+        <AppBar position="static">
             <Toolbar classes={{ root : classes.between }}>
                 <CreateNew color="secondary" />
                 <Button color="inherit">
