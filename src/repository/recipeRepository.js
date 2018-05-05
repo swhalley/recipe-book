@@ -13,11 +13,14 @@ export default {
     },
 
     read( callback ){
-        var database = firebase.database().ref( 'recipe/' );
+        var database = firebase.database().ref( 'recipe/' ).orderByChild('title');
         database.on( 'value', (snapshot) => {
-            let values = snapshot.val();
-            let result = Object.keys( values ).map( ( key ) => {
-                return {...values[key], "id": key};
+            let result = [];
+            snapshot.forEach( (recipe) =>{
+                result.push( {
+                    ...recipe.val(), 
+                    "id": recipe.key
+                });
             } );
 
             callback( result );

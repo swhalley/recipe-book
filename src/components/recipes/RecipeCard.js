@@ -17,10 +17,11 @@ import Typography from 'material-ui/Typography';
 import red from 'material-ui/colors/red';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import moment from 'moment-timezone';
 
 const styles = theme => ({
   card: {
-    maxWidth: 285,
+    width: 285,
   },
   media: {
     height: 0,
@@ -58,13 +59,9 @@ class RecipeCard extends React.Component {
       <div>
         <Card className={classes.card}>
           <CardHeader
-            avatar={
-              <Avatar aria-label="Recipe" className={classes.avatar}>
-                R
-              </Avatar>
-            }
+            avatar={this._getAvatar( this.props.createdBy, classes)}
             title={this.props.title}
-            subheader={this.props.createdDate}
+            subheader={moment( this.props.createdDate ).format('LL')}
           />
           <CardMedia
             className={classes.media}
@@ -104,6 +101,30 @@ class RecipeCard extends React.Component {
         </Card>
       </div>
     );
+  }
+
+  _getAvatar( user = {}, classes ){
+    if(user.photoURL){
+      return (
+        <Avatar aria-label="Recipe" className={classes.avatar} src={user.photoURL} title={user.displayName} />
+      )
+    }else if(user.displayName){
+      return (
+        <Avatar aria-label="Recipe" className={classes.avatar} title={user.displayName}>
+          {this._getInitial(user.displayName)}
+        </Avatar>
+      )
+    } else {
+      return (
+        <Avatar aria-label="Recipe" className={classes.avatar}>
+          ?
+        </Avatar>
+      )
+    }
+  }
+
+  _getInitial( displayName ){
+    return displayName.charAt(0);
   }
 }
 

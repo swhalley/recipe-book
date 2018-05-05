@@ -24,7 +24,9 @@ class MainMenu extends Component {
                     <AppBar position="static">
                         <Toolbar classes={{ root : classes.between }}>
                             <CreateNew color="secondary" createRecipe={context.createRecipe} />
-                            <Login user={context.state.user} />
+                            <Login user={context.state.user} 
+                                loginAction={context.loginAction} 
+                                logoutAction={context.logoutAction} />
                         </Toolbar>
                     </AppBar>
                 )

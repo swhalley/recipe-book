@@ -16,6 +16,7 @@ class RecipeProvider extends Component{
 
         this.createRecipe = this.createRecipe.bind(this);
         this.loginAction = this.loginAction.bind(this);
+        this.logoutAction = this.logoutAction.bind(this);
     }
     
 
@@ -24,7 +25,9 @@ class RecipeProvider extends Component{
             <RecipeContext.Provider value={{
                 state: this.state,
                 user: null,
-                createRecipe : this.createRecipe
+                createRecipe : this.createRecipe,
+                loginAction : this.loginAction, 
+                logoutAction: this.logoutAction
             }}>
                 {this.props.children}
             </RecipeContext.Provider>
@@ -60,7 +63,7 @@ class RecipeProvider extends Component{
     }
 
     _loginState( user ){
-        const {displayName, photoURL, uid} = {...user}
+        const {displayName, photoURL, uid} = user;
         this.setState({
             user : {displayName, photoURL, uid}
         });

@@ -3,6 +3,10 @@ An introduction to firebase services
 
 
 # Feature
+Login/Out not working
+Cards
+    Sort by Date Added or title
+    Avatar for name only
 Context API - 
     Move state up, 
     along with where Repository is called. Need to be able to pass user in
