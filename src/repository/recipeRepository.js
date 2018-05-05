@@ -13,7 +13,7 @@ export default {
     },
 
     read( callback ){
-        var database = firebase.database().ref( 'recipe/' ).orderByChild('title');
+        var database = firebase.database().ref( 'recipe/' );
         database.on( 'value', (snapshot) => {
             let result = [];
             snapshot.forEach( (recipe) =>{
