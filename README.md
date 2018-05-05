@@ -4,52 +4,108 @@ An introduction to firebase services
 # Requirements
 * Node js 6+ LTS Recommended 
 * Google Account
-
-
-# Firebase Function Ideas
-Favorite
-    Slack message - congratulate in slack when 10 favorites
-    sync the calls as part of a function instead of in code?
-    send note to another user when their recipe is favorited (via cloud messaging)
-Audit/Logging
-    Can we intercept and log every request?
-This should be something user specific so we can make sure the tables can be locked down        
-
-# Favorite
-user didn't favorite, show grey heart + number of others who favorite.
-user did favorite, show red + number of favorites.
-user clicks grey, favorite.
-user clicks red, un-favorite
-logged-out users can see but can't vote
-
-
-This would update clicks in a sync manor. users may not override each other
------
-var ref = firebase.database().ref('node/clicks');
-ref.transaction(function(currentClicks) {
-  // If node/clicks has never been set, currentRank will be `null`.
-  return (currentClicks || 0) + 1;
-});
-
-# Prep
-   * Clone Repo @ version without firebase files (Do this ahea)
+     
+# Prep to do ahead of time
+   * Clone Repo @ version without firebase files
+   * Run `npm install` && `npm build`
+   * Get real instructions via dry run below.
+      * Dont forget about --reauth just in case login is stale
 
 # Demo
 1. Show Current Demo and let people play
     * Show DB + app at same time to show RT database
-2. Review Code points that utilize Firebase
+2. Review Code - show Repos that utilize Firebase
 3. Review Console
+   * https://console.firebase.google.com
 4. Demo 
-   * install firebase-tools -g
+   * install Firebase Tools
+      * `npm install -g firebase-tools`
    * Init firebase w/ wizard
+      * `firebase login`
+      * `firebase init`
    * Create Application in console
       * Leave the DB public
       * setup new hosting name (peidevs-demo)
       * Setup Auth for google only
    * Get api keys from firebase console
-   * deploy
+   * Deploy the Code
+      * `npm build`
+      * `firebase deploy`
    * give new url and let people play again
-5. Secure DB
+5. Secure DB - Showing Condole Simulator
     * public
-    * secure to only logged in users
-    * lock tables down by user
+
+```javascript 
+{
+  "rules": {
+    	".read": true,
+    	".write": true  
+    }
+}
+```
+
+   * secure to only logged in users
+
+```javascript
+{
+  "rules": {
+    ".read": true,
+    ".write": "$userid === auth.uid"  
+  }
+}
+```
+
+   * lock tables down 
+
+```javascript
+{
+  "rules": {
+    "recipe" :{
+    	".read": true,
+    	".write": true  
+    },
+    "favorite" :{
+      ".read": true,
+      "$id" : {
+        "$userid" : {
+          ".read": true,
+          ".write": "$userid === auth.uid"
+        }
+      }
+    }
+  }
+}
+```
+
+   * Data Validation
+
+```javascript
+{
+  "rules": {
+    "recipe" :{
+    	".read": true,
+    	".write": true  
+    },
+    "favorite" :{
+      ".read": true,
+      "$id" : {
+        "$userid" : {
+          ".read": true,
+          ".write": "$userid === auth.uid",
+          ".validate" : "newData.isBoolean() && data.val() != newData.val()"
+        }
+      }
+    }
+  }
+}
+```
+
+
+# Possible Questions
+1. Can we use API keys to deliver from CI
+   * https://medium.com/@rohanbagchi/how-to-setup-continuous-integration-for-your-firebase-app-cd183bb862e1
+   * Console -> Cog -> Users and Permissions
+2. Cost?
+   * Free, $25, Pay/usage
+3. What other Features are available?
+   * Functions, Messaging, Storage, new DB, analytics
