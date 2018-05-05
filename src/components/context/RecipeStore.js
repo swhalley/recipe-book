@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-import recipeRepository from '../../repository/recipeRepository';
-import favoriteRepository from '../../repository/favoriteRepository';
-import authRepository from '../../repository/authRepository';
+import {recipeRepository, favoriteRepository, authRepository} from '../../repository/';
 
 
 const RecipeContext = React.createContext();
