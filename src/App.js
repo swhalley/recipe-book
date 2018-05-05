@@ -9,9 +9,9 @@ class App extends Component {
     super();
 
     var config = {
-      apiKey: "AIzaSyDUTdna7AN7hMLIS2jPPZVLKIxj4rURduU",
-      authDomain: "recipe-book-prep.firebaseapp.com",
-      databaseURL: "https://recipe-book-prep.firebaseio.com"
+      apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+      authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+      databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL
     };
     firebase.initializeApp(config);
 }
