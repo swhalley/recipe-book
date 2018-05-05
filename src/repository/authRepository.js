@@ -20,7 +20,7 @@ export default {
         return firebase.auth().currentUser;
     },
 
-    get currentUser(){
-        return this.isLoggedIn() ? firebase.auth().currentUser.uid : {} 
+    getCurrentUser(){
+        return firebase.auth().currentUser ? firebase.auth().currentUser.uid : {};
     }
 }

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {recipeRepository, favoriteRepository, authRepository} from '../../repository/';
+import {recipeRepository, favoriteRepository, authRepository} from '../../repository';
 
 
 const RecipeContext = React.createContext();
@@ -18,6 +18,7 @@ class RecipeProvider extends Component{
         this.loginAction = this.loginAction.bind(this);
         this.logoutAction = this.logoutAction.bind(this);
         this.favoriteAction = this.favoriteAction.bind(this);
+        this.favoriteCount = this.favoriteCount.bind(this);
     }
     
     render(){
@@ -28,7 +29,8 @@ class RecipeProvider extends Component{
                 createRecipe : this.createRecipe,
                 loginAction : this.loginAction, 
                 logoutAction: this.logoutAction,
-                favoriteAction : this.favoriteAction
+                favoriteAction : this.favoriteAction,
+                favoriteCount : this.favoriteCount
             }}>
                 {this.props.children}
             </RecipeContext.Provider>
@@ -45,6 +47,10 @@ class RecipeProvider extends Component{
         recipeRepository.read( ( recipes ) => {
             this.setState( {recipes} );
         });
+
+        favoriteRepository.read( (favorites) => {
+            this.setState( {favorites} );
+        })
     }
 
     createRecipe( recipe ){
@@ -74,7 +80,18 @@ class RecipeProvider extends Component{
         if( !authRepository.isLoggedIn())
             return;
         
-        favoriteRepository.favorite( recipeId, authRepository.currentUser);
+        favoriteRepository.favorite( recipeId, authRepository.getCurrentUser());
+    }
+
+    favoriteCount(recipeId){
+        var favoriteRecipe = this.state.favorites[recipeId];
+
+        if(!favoriteRecipe) 
+            return 0;
+
+        return Object.values( favoriteRecipe ).reduce( (currentCount, vote) => {
+            return currentCount + (vote ? 1 : 0)
+        }, 0);
     }
 }
 

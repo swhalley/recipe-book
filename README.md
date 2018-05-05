@@ -16,8 +16,15 @@ Audit/Logging
 This should be something user specific so we can make sure the tables can be locked down        
 
 # Favorite
-This would update clicks in a sync manor. users may not override each other
+user didn't favorite, show grey heart + number of others who favorite.
+user did favorite, show red + number of favorites.
+user clicks grey, favorite.
+user clicks red, un-favorite
+logged-out users can see but can't vote
 
+
+This would update clicks in a sync manor. users may not override each other
+-----
 var ref = firebase.database().ref('node/clicks');
 ref.transaction(function(currentClicks) {
   // If node/clicks has never been set, currentRank will be `null`.
