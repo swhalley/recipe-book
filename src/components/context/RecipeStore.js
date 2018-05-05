@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import firebase from 'firebase';
 import recipeRepository from '../../repository/recipeRepository';
+import favoriteRepository from '../../repository/favoriteRepository';
+import authRepository from '../../repository/authRepository';
 
 
 const RecipeContext = React.createContext();
@@ -11,15 +12,16 @@ class RecipeProvider extends Component{
         
         this.state = {
             recipes : [],
+            favorites: {},
             user : null
         }
 
         this.createRecipe = this.createRecipe.bind(this);
         this.loginAction = this.loginAction.bind(this);
         this.logoutAction = this.logoutAction.bind(this);
+        this.favoriteAction = this.favoriteAction.bind(this);
     }
     
-
     render(){
         return (
             <RecipeContext.Provider value={{
@@ -27,7 +29,8 @@ class RecipeProvider extends Component{
                 user: null,
                 createRecipe : this.createRecipe,
                 loginAction : this.loginAction, 
-                logoutAction: this.logoutAction
+                logoutAction: this.logoutAction,
+                favoriteAction : this.favoriteAction
             }}>
                 {this.props.children}
             </RecipeContext.Provider>
@@ -35,7 +38,7 @@ class RecipeProvider extends Component{
     }
         
     componentDidMount(){
-        firebase.auth().onAuthStateChanged((user)=> {
+        authRepository.awaitLoginState((user)=> {
             if (user) {
                 this._loginState( user );
             }
@@ -51,13 +54,13 @@ class RecipeProvider extends Component{
     }
 
     loginAction(){
-        firebase.auth().signInWithPopup( new firebase.auth.GoogleAuthProvider() )
+        authRepository.signIn()
             .then((result)=> this._loginState( result.user ))
             .catch((error)=> console.error("PC LOAD LETTER", error));
     }
 
     logoutAction(){
-        firebase.auth().signOut()
+        authRepository.signOut()
             .then(()=>this.setState({user:null}))
             .catch(()=>this.setState({user:null}));
     }
@@ -67,6 +70,13 @@ class RecipeProvider extends Component{
         this.setState({
             user : {displayName, photoURL, uid}
         });
+    }
+
+    favoriteAction(recipeId){
+        if( !authRepository.isLoggedIn())
+            return;
+        
+        favoriteRepository.favorite( recipeId, authRepository.currentUser);
     }
 }
 

@@ -74,7 +74,7 @@ class RecipeCard extends React.Component {
             </Typography>
           </CardContent>
           <CardActions className={classes.actions} disableActionSpacing>
-            <IconButton aria-label="Add to favorites">
+            <IconButton aria-label="Add to favorites" onClick={()=>this.props.favoriteClicked(this.props.id)}>
               <FavoriteIcon />
             </IconButton>
             <IconButton

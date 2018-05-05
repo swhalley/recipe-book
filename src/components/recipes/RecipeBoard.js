@@ -12,7 +12,7 @@ class RecipeBoard extends Component {
                         <Grid container spacing={8}>
                             {context.state.recipes.map((recipe)=>
                                 <Grid item key={recipe.id}>
-                                    <RecipeCard {...recipe} />
+                                    <RecipeCard {...recipe} favoriteClicked={(recipeId) => context.favoriteAction(recipeId)} />
                                 </Grid>)
                             }
                         </Grid>
