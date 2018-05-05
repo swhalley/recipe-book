@@ -14,7 +14,8 @@ class RecipeBoard extends Component {
                                 <Grid item key={recipe.id}>
                                     <RecipeCard {...recipe} 
                                         favoriteCount={context.favoriteCount(recipe.id)} 
-                                        favoriteClicked={(recipeId) => context.favoriteAction(recipeId)} />
+                                        favoriteClicked={(recipeId) => context.favoriteAction(recipeId)}
+                                        didUserFavorite={context.didUserFavorite( recipe.id )} />
                                 </Grid>)
                             }
                         </Grid>

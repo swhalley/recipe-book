@@ -19,6 +19,7 @@ class RecipeProvider extends Component{
         this.logoutAction = this.logoutAction.bind(this);
         this.favoriteAction = this.favoriteAction.bind(this);
         this.favoriteCount = this.favoriteCount.bind(this);
+        this.didUserFavorite = this.didUserFavorite.bind(this);
     }
     
     render(){
@@ -30,7 +31,8 @@ class RecipeProvider extends Component{
                 loginAction : this.loginAction, 
                 logoutAction: this.logoutAction,
                 favoriteAction : this.favoriteAction,
-                favoriteCount : this.favoriteCount
+                favoriteCount : this.favoriteCount,
+                didUserFavorite : this.didUserFavorite
             }}>
                 {this.props.children}
             </RecipeContext.Provider>
@@ -92,6 +94,16 @@ class RecipeProvider extends Component{
         return Object.values( favoriteRecipe ).reduce( (currentCount, vote) => {
             return currentCount + (vote ? 1 : 0)
         }, 0);
+    }
+
+    didUserFavorite(recipeID){
+        if(!authRepository.isLoggedIn())
+            return false;
+
+        if(!this.state.favorites[recipeID])
+            return false;
+
+        return this.state.favorites[recipeID][authRepository.getCurrentUser()];
     }
 }
 
