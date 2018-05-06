@@ -5,7 +5,7 @@ export default {
         let database = firebase.database().ref( 'favorite/' );
     
         database.on( 'value', (snapshot) => {
-            callback( snapshot.val() );
+            callback( snapshot.val() || {} );
         });
     },
 
