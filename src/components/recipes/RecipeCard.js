@@ -43,6 +43,9 @@ const styles = theme => ({
   avatar: {
     backgroundColor: red[500],
   },
+  preLine: {
+    whiteSpace: 'pre-line'
+  }
 });
 
 class RecipeCard extends React.Component {
@@ -93,7 +96,7 @@ class RecipeCard extends React.Component {
               <Typography paragraph variant="body2">
                 Cooking Instructions:
               </Typography>
-              <Typography paragraph>
+              <Typography paragraph className={classes.preLine}>
                 {this.props.method}
               </Typography>
             </CardContent>
